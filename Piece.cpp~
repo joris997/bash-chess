@@ -1,0 +1,8 @@
+#include "Piece.h"
+
+// Piece member functions
+void Piece::movePiece(){
+  if (Piece.getType() == "p"){
+    
+  }
+}
