@@ -13,6 +13,9 @@ void Piece::computePermMoves(){
       this.permMoves.push_back((this.getCol(),this.getRow()+2*this.getColor()));
     }
   }
+  else if(this.getType() == "n"){
+    // TODO: function from column 'a' to 1
+  }
 }
 
 // compute the allowed moves (regarding other pieces)
@@ -23,29 +26,37 @@ void Piece::computeAllowedMoves(){
 // move a piece
 void Piece::movePiece(){
   int newRow;
-  char newCol;
-  cout << "Give a move for " << (char)this.getType() << " " << colTrans(this.getCol) << this.getRow << ": " << endl;
-  cout << "Column: " << endl;
-  cin >> newCol;
-  cout << "Row: " << endl;
-  cin >> newRow;
-  pair<char,int> newMove = <newCol,newRow>;
+  char ansCol;
+  int newCol;
+  
+  bool validMoveMade;
+  while(validMoveMade == false){
+    // TODO: streamline this input
+    cout << "Give a move for " << (char)this.getType() << " " << num2char(this.getCol) << this.getRow << ": " << endl;
+    cout << "Column: " << endl;
+    cin >> ansCol;
+    newCol = char2num(ansCol);
+    cout << "Row: " << endl;
+    cin >> newRow;
+    pair<int,int> newMove = <newCol,newRow>;
 
-  // check if hte newMove is an allowed move
-  bool allowed;
-  for (int i=0; i<sizeof(this.allowedMoves)/sizeof(this.allowedMoves[0]); i++){
-    if (newMove == this.allowedMoves[i]){
-      allowed = true;
-      break;
-    }    
-  }
+    // check if hte newMove is an allowed move
+    bool allowed;
+    for (int i=0; i<sizeof(this.allowedMoves)/sizeof(this.allowedMoves[0]); i++){
+      if (newMove == this.allowedMoves[i]){
+	allowed = true;
+	break;
+      }    
+    }
 
-  // conduct the new move
-  if (allowed){
-    this.changeRow = newRow;
-    this.changeCol = newCol;
+    // conduct the new move
+    if (allowed){
+      this.changeRow = newRow;
+      this.changeCol = newCol;
+      validMoveMade = true;
+    }
+    else{
+      cout << "Not an allowed move" << endl;
+    }
   }
-  else{
-    cout << "Not an allowed move" << endl;
-  }  
 }

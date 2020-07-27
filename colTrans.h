@@ -1,7 +1,7 @@
 #ifndef COLTRANS_H
 #define COLTRANS_H
 
-char colTrans(int col){
+char num2char(int col){
   if(col>=1 && col<=8){
     return "abcdefgh"[col-1];
   }
@@ -11,4 +11,13 @@ char colTrans(int col){
   }
 }
 
+int char2num(char col){
+  int num = (int) col - 97;
+  if(num>=1 && num<=8){
+    return num;
+  }
+  else{
+    return 1;
+  }
+}
 #endif

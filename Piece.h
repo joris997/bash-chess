@@ -27,7 +27,7 @@ class Piece{
   int getRow(){return row;};
   int getCol(){return col;};
   int getMoveCnt(){return moveCnt;};
-  char getColor(){return color;};
+  int getColor(){return color;};
   char getType(){return type;};
   vector<pair<char,int>> getPermMoves(){return permMoves;};
   vector<pair<char,int>> getAllowedMoves(){return allowedMoves;};
@@ -44,7 +44,7 @@ class Piece{
   explicit Piece(const int row, const int col, const int color, const char type)
     : row(row), col(col), moveCnt(0), color(color), type(type)
     {
-      cout << "Created a " << color << " "  << (char)type << " at " << colTrans(col) << row << endl;
+      cout << "Created a " << color << " "  << (char)type << " at " << num2char(col) << row << endl;
     }
 };
 
