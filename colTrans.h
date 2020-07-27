@@ -1,5 +1,5 @@
-#ifndef COLTRANS_H
-#define COLTRANS_H
+//#ifndef COLTRANS_H
+//#define COLTRANS_H
 
 char num2char(int col){
   if(col>=1 && col<=8){
@@ -20,4 +20,4 @@ int char2num(char col){
     return 1;
   }
 }
-#endif
+//#endif

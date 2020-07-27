@@ -1,26 +1,29 @@
 #include "Piece.h"
 #include <iostream>
+#include <utility>
 
 using namespace std;
 
 // compute the permissable moves (that are of the nature of the piece)
 void Piece::computePermMoves(){
-  if (this.getType() == "p"){
+  if (getType() == 'p'){
     // add move to one row ahead
-    this.permMoves.push_back((this.getCol(),this.getRow()+1*this.getColor()));
-    if (this.getMoveCnt() == 0){
+    pair<int,int> add_pair (getCol(),getRow()+1*getColor());
+    permMoves.push_back(add_pair);
+    if (getMoveCnt() == 0){
       // add move to two rows ahead
-      this.permMoves.push_back((this.getCol(),this.getRow()+2*this.getColor()));
+      pair<int,int> add_pair (getCol(),getRow()+2*getColor());
+      permMoves.push_back(add_pair);
     }
   }
-  else if(this.getType() == "n"){
+  else if(getType() == 'n'){
     // TODO: function from column 'a' to 1
   }
 }
 
 // compute the allowed moves (regarding other pieces)
 void Piece::computeAllowedMoves(){
-  this.allowedMoves = this.permMoves;
+  allowedMoves = permMoves;
 }
 
 // move a piece
@@ -32,18 +35,18 @@ void Piece::movePiece(){
   bool validMoveMade;
   while(validMoveMade == false){
     // TODO: streamline this input
-    cout << "Give a move for " << (char)this.getType() << " " << num2char(this.getCol) << this.getRow << ": " << endl;
+    cout << "Give a move for " << (char)getType() << " " << num2char(getCol) << getRow << ": " << endl;
     cout << "Column: " << endl;
     cin >> ansCol;
     newCol = char2num(ansCol);
     cout << "Row: " << endl;
     cin >> newRow;
-    pair<int,int> newMove = <newCol,newRow>;
+    pair<int,int> newMove (newCol,newRow);
 
     // check if hte newMove is an allowed move
     bool allowed;
-    for (int i=0; i<sizeof(this.allowedMoves)/sizeof(this.allowedMoves[0]); i++){
-      if (newMove == this.allowedMoves[i]){
+    for (int i=0; i<sizeof(allowedMoves)/sizeof(allowedMoves[0]); i++){
+      if (newMove == allowedMoves[i]){
 	allowed = true;
 	break;
       }    
@@ -51,8 +54,8 @@ void Piece::movePiece(){
 
     // conduct the new move
     if (allowed){
-      this.changeRow = newRow;
-      this.changeCol = newCol;
+      changeRow(newRow);
+      changeCol(newCol);
       validMoveMade = true;
     }
     else{

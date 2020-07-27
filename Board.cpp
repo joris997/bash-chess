@@ -4,11 +4,16 @@
 
 using namespace std;
 
+// check win-condition, checkmate
+void Board::checkWin(){
+  cout << "checking win" << endl;
+}
+
 // moving pieces, color = 1 for white, color = -1 for black
 void Board::move(int color){
-  for (int i=0; i<sizeof(this.pieces)/sizeof(this.pieces[0]); i++){
-    this.pieces[i].computePermMoves();
-    this.pieces[i].computeAllowedMoves();
+  for (int i=0; i<sizeof(pieces)/sizeof(pieces[0]); i++){
+    pieces[i].computePermMoves();
+    pieces[i].computeAllowedMoves();
   }
 
   // announce which color is to move
@@ -38,15 +43,15 @@ void Board::move(int color){
 
     bool exists;
     int pieceLoc;
-    for (int i=0; i<sizeof(this.pieces)/sizeof(this.pieces[0]); i++){
-      if (this.pieces[i].getColor == color && this.pieces[i].getType == pieceType && this.pieces[i].getCol == pieceCol && this.pieces[i].getRow == pieceRow){
+    for (int i=0; i<sizeof(pieces)/sizeof(pieces[0]); i++){
+      if (pieces[i].getColor == color && pieces[i].getType == pieceType && pieces[i].getCol == pieceCol && pieces[i].getRow == pieceRow){
 	exists = true;
 	pieceLoc = i;
 	break;
       }
     }
     if (exists){
-      this.pieces[i].movePiece();
+      pieces[i].movePiece();
       validMoveMade = true;
     }
     else{
@@ -55,15 +60,10 @@ void Board::move(int color){
   }
 }
 
-// check win-condition, checkmate
-void Board::checkWin(){
-
-}
-
 void Board::playGame(){
   while(true){
-    this.move(1);
-    this.move(-1);
-    this.checkWin();
+    move(1);
+    move(-1);
+    checkWin();
   }
 }

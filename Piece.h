@@ -18,9 +18,9 @@ class Piece{
   // 'p', 'n', 'b', 'r', 'q', 'k' for pawn, knight, bishop, rook, queen, king
   char type;
   // permissable moves for the piece
-  vector<pair<char,int>> permMoves;
+  vector<pair<int,int>> permMoves;
   // allowable moves for the piece, taking the entire board into account (1. Ke2 is not allowed but permissable)
-  vector<pair<char,int>> allowedMoves;
+  vector<pair<int,int>> allowedMoves;
 
  public:
   // getting
@@ -29,11 +29,11 @@ class Piece{
   int getMoveCnt(){return moveCnt;};
   int getColor(){return color;};
   char getType(){return type;};
-  vector<pair<char,int>> getPermMoves(){return permMoves;};
-  vector<pair<char,int>> getAllowedMoves(){return allowedMoves;};
+  vector<pair<int,int>> getPermMoves(){return permMoves;};
+  vector<pair<int,int>> getAllowedMoves(){return allowedMoves;};
   // setting
   void changeRow(int newRow){row = newRow;};
-  void changeCol(char newCol){col = newCol;};
+  void changeCol(int newCol){col = newCol;};
   void changeType(char newType){type = newType;};
   // template member functions
   void computePermMoves();

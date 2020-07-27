@@ -8,10 +8,15 @@
 using namespace std;
 
 class Board{
- private:
+ public:
   vector<Piece> pieces;
 
  public:
+  // template class functions
+  void checkWin();
+  void move(int color);
+  void playGame();
+  
   // constructor
   explicit Board()
     : pieces()
@@ -19,6 +24,6 @@ class Board{
       // TODO: add all pieces and allow manually adding pieces
       pieces.push_back(Piece {1,1,1,'1'});
     }
-}
+};
 
 #endif
