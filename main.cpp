@@ -5,6 +5,6 @@
 using namespace std;
 
 int main(){
-  Piece piece1{1,1,"p",1};
+  Piece piece1{1,1,1,'p'};
   return 0;
 }

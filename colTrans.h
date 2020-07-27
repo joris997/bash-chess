@@ -6,7 +6,7 @@ char colTrans(int col){
     return "abcdefgh"[col-1];
   }
   else{
-    char alt = "a";
+    char alt = 'a';
     return alt;
   }
 }
