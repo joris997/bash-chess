@@ -29,23 +29,23 @@ void Piece::computeAllowedMoves(){
 
 // move a piece
 void Piece::movePiece(){
+  char newMove[2];
   int newRow;
   char ansCol;
   int newCol;
   
-  bool validMoveMade;
+  bool validMoveMade = false;
   while(validMoveMade == false){
     // TODO: streamline this to allow "nh3" as input
     cout << "Give a move for " << (char)type << " " << num2char(col) << row << ": " << endl;
-    cout << "Column: " << endl;
-    cin >> ansCol;
-    newCol = char2num(ansCol);
-    cout << "Row: " << endl;
-    cin >> newRow;
+    cin >> newMove;
+    newCol = char2num(newMove[0]);
+    newRow =  newMove[1] - '0';
+    
     pair<int,int> newMove (newCol,newRow);
 
     // check if the newMove is an allowed move
-    bool allowed;
+    bool allowed = false;
     for (int i=0; i<sizeof(allowedMoves)/sizeof(allowedMoves[0]); i++){
       if (newMove == allowedMoves[i]){
 	allowed = true;

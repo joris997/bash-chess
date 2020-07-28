@@ -11,7 +11,7 @@ void Board::checkWin(){
 
 // moving pieces, color = 1 for white, color = -1 for black
 void Board::move(int color){
-  for (int i=0; i<sizeof(pieces)/sizeof(pieces[0]); i++){
+  for (int i=0; i<pieces.size(); i++){
     pieces[i].computePermMoves();
     pieces[i].computeAllowedMoves();
   }
@@ -25,26 +25,25 @@ void Board::move(int color){
   }
 
   // while loop until a valid move has been made (selecting the wrong move or wrong piece)
-  bool validMoveMade;
+  bool validMoveMade = false;
   while (validMoveMade == false){
     // get the piece that needs to be moved
-    char pieceType;
-    char charTemp;
-    int pieceCol;
-    int pieceRow;
-    cout << "Which piece you want to move?" << endl;
-    cout << "Type: " << endl;
-    cin >> pieceType;
-    cout << "Column: " << endl;
-    cin >> charTemp;
-    pieceCol = char2num(charTemp);
-    cout << "Row: " << endl;
-    cin >> pieceRow;
+    char movePiece[3];
+    char moveType;
+    int moveCol;
+    int moveRow;
+    
+    cout << "Piece you want to move: (e.g. ke1)" << endl;
+    cin >> movePiece;
 
-    bool exists;
+    moveType = movePiece[0];
+    moveCol = char2num(movePiece[1]);
+    moveRow =  movePiece[2] - '0';
+    
+    bool exists = false;
     int pieceLoc;
-    for (int p=0; p<sizeof(pieces)/sizeof(pieces[0]); p++){
-      if (pieces[p].getColor() == color && pieces[p].getType() == pieceType && pieces[p].getCol() == pieceCol && pieces[p].getRow() == pieceRow){
+    for (int p=0; p<pieces.size(); p++){
+      if (pieces[p].getColor() == color && pieces[p].getType() == moveType && pieces[p].getCol() == moveCol && pieces[p].getRow() == moveRow){
 	exists = true;
 	pieceLoc = p;
 	break;
@@ -61,21 +60,25 @@ void Board::move(int color){
 }
 
 void Board::dispBoard(){
-  //system("clear");
   // TODO: ensure printing distinct pieces instead of "p"
+  system("clear");
+  cout << "   -----------------" << endl;
   for (int i=8; i>=1; i--){
-    cout << "| ";
+    cout << i << " | ";
     for (int ii=1; ii<=8; ii++){
       bool pieceOnSquare;
-      for (int p=0; p<sizeof(pieces)/sizeof(pieces[0]); p++){
+      int pieceCnt;
+      for (int p=0; p<pieces.size(); p++){
 	if (pieces[p].getRow() == i && pieces[p].getCol() == ii){
 	  pieceOnSquare = true;
+	  pieceCnt = p;
 	  break;
 	}
       }
       
       if (pieceOnSquare){
-	cout << "p ";
+	cout << pieces[pieceCnt].getType() << " ";
+	pieceOnSquare = false;
       }
       else{
 	cout << ". ";
@@ -83,6 +86,8 @@ void Board::dispBoard(){
     }
     cout << "|" << endl;
   }
+  cout << "   -----------------" << endl;
+  cout << "    a b c d e f g h" << endl;
 }
 
 void Board::playGame(){
