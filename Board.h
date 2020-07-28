@@ -16,13 +16,17 @@ class Board{
   void checkWin();
   void move(int color);
   void playGame();
+  void dispBoard();
   
   // constructor
   explicit Board()
     : pieces()
     {
       // TODO: add all pieces and allow manually adding pieces
-      pieces.push_back(Piece {1,1,1,'1'});
+      // order: row col color type
+      Piece new_piece{1,1,1,'p'};
+      pieces.push_back(new_piece);
+      cout << sizeof(pieces)/sizeof(pieces[0]) << endl;
     }
 };
 

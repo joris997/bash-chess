@@ -1,6 +1,7 @@
 #include "Piece.h"
 #include <iostream>
 #include <utility>
+#include "colTrans.h"
 
 using namespace std;
 
@@ -34,8 +35,8 @@ void Piece::movePiece(){
   
   bool validMoveMade;
   while(validMoveMade == false){
-    // TODO: streamline this input
-    cout << "Give a move for " << (char)getType() << " " << num2char(getCol) << getRow << ": " << endl;
+    // TODO: streamline this to allow "nh3" as input
+    cout << "Give a move for " << (char)type << " " << num2char(col) << row << ": " << endl;
     cout << "Column: " << endl;
     cin >> ansCol;
     newCol = char2num(ansCol);
@@ -43,7 +44,7 @@ void Piece::movePiece(){
     cin >> newRow;
     pair<int,int> newMove (newCol,newRow);
 
-    // check if hte newMove is an allowed move
+    // check if the newMove is an allowed move
     bool allowed;
     for (int i=0; i<sizeof(allowedMoves)/sizeof(allowedMoves[0]); i++){
       if (newMove == allowedMoves[i]){

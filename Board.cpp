@@ -4,7 +4,7 @@
 
 using namespace std;
 
-// check win-condition, checkmate
+// check win-condition, checkmate, stalemate
 void Board::checkWin(){
   cout << "checking win" << endl;
 }
@@ -26,13 +26,13 @@ void Board::move(int color){
 
   // while loop until a valid move has been made (selecting the wrong move or wrong piece)
   bool validMoveMade;
-  while (valideMoveMade == false){
+  while (validMoveMade == false){
     // get the piece that needs to be moved
     char pieceType;
     char charTemp;
     int pieceCol;
     int pieceRow;
-    cout << "Type which piece you want to move: " << endl;
+    cout << "Which piece you want to move?" << endl;
     cout << "Type: " << endl;
     cin >> pieceType;
     cout << "Column: " << endl;
@@ -43,15 +43,15 @@ void Board::move(int color){
 
     bool exists;
     int pieceLoc;
-    for (int i=0; i<sizeof(pieces)/sizeof(pieces[0]); i++){
-      if (pieces[i].getColor == color && pieces[i].getType == pieceType && pieces[i].getCol == pieceCol && pieces[i].getRow == pieceRow){
+    for (int p=0; p<sizeof(pieces)/sizeof(pieces[0]); p++){
+      if (pieces[p].getColor() == color && pieces[p].getType() == pieceType && pieces[p].getCol() == pieceCol && pieces[p].getRow() == pieceRow){
 	exists = true;
-	pieceLoc = i;
+	pieceLoc = p;
 	break;
       }
     }
     if (exists){
-      pieces[i].movePiece();
+      pieces[pieceLoc].movePiece();
       validMoveMade = true;
     }
     else{
@@ -60,9 +60,36 @@ void Board::move(int color){
   }
 }
 
+void Board::dispBoard(){
+  //system("clear");
+  // TODO: ensure printing distinct pieces instead of "p"
+  for (int i=8; i>=1; i--){
+    cout << "| ";
+    for (int ii=1; ii<=8; ii++){
+      bool pieceOnSquare;
+      for (int p=0; p<sizeof(pieces)/sizeof(pieces[0]); p++){
+	if (pieces[p].getRow() == i && pieces[p].getCol() == ii){
+	  pieceOnSquare = true;
+	  break;
+	}
+      }
+      
+      if (pieceOnSquare){
+	cout << "p ";
+      }
+      else{
+	cout << ". ";
+      }
+    }
+    cout << "|" << endl;
+  }
+}
+
 void Board::playGame(){
   while(true){
+    dispBoard();
     move(1);
+    dispBoard();
     move(-1);
     checkWin();
   }
