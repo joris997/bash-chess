@@ -1,5 +1,3 @@
-//#ifndef COLTRANS_H
-//#define COLTRANS_H
 #include "colTrans.h"
 
 char num2char(int col){
@@ -13,7 +11,7 @@ char num2char(int col){
 }
 
 int char2num(char col){
-  int num = (int) col - 97;
+  int num = (int) col - 96;
   if(num>=1 && num<=8){
     return num;
   }
@@ -21,4 +19,3 @@ int char2num(char col){
     return 1;
   }
 }
-//#endif

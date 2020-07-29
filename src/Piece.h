@@ -36,6 +36,8 @@ class Piece{
   void changeCol(int newCol){col = newCol;};
   void changeType(char newType){type = newType;};
   // template member functions
+  void computePermMovesBishop();
+  void computePermMovesRook();
   void computePermMoves();
   void computeAllowedMoves();
   void movePiece();

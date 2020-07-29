@@ -1,0 +1,3 @@
+/home/none/Documents/cpp/bash-chess/build/CMakeFiles/rebuild_cache.dir
+/home/none/Documents/cpp/bash-chess/build/CMakeFiles/bash-chess.dir
+/home/none/Documents/cpp/bash-chess/build/CMakeFiles/edit_cache.dir

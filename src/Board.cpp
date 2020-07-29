@@ -39,10 +39,14 @@ void Board::move(int color){
     moveType = movePiece[0];
     moveCol = char2num(movePiece[1]);
     moveRow =  movePiece[2] - '0';
-    
+    cout << (int)'a' << endl;
+    cout << (int)'d' << endl;
+    //cout << movePiece[1] << "   " << moveCol << endl;
     bool exists = false;
     int pieceLoc;
     for (int p=0; p<pieces.size(); p++){
+      //cout << pieces[p].getType() << num2char(pieces[p].getCol()) << pieces[p].getRow() <<  endl;
+      //cout << moveType << num2char(moveCol) << moveRow << endl;
       if (pieces[p].getColor() == color && pieces[p].getType() == moveType && pieces[p].getCol() == moveCol && pieces[p].getRow() == moveRow){
 	exists = true;
 	pieceLoc = p;
