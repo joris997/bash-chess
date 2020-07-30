@@ -1,0 +1,6 @@
+- make variable size permMoves and allowedMoves vector for all the different pieces.
+	now it seems like all have a size of 2/3 while rooks have clearly more moves then pawns
+
+- change the visualization to display ascii chess pieces
+
+- compute allowedMoves() taking into account your and enemies pieces

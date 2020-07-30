@@ -34,6 +34,7 @@ class Piece{
   // setting
   void changeRow(int newRow){row = newRow;};
   void changeCol(int newCol){col = newCol;};
+  void changeMoveCnt(int newMoveCnt){moveCnt = newMoveCnt;};
   void changeType(char newType){type = newType;};
   // template member functions
   void computePermMovesBishop();

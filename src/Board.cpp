@@ -39,14 +39,11 @@ void Board::move(int color){
     moveType = movePiece[0];
     moveCol = char2num(movePiece[1]);
     moveRow =  movePiece[2] - '0';
-    cout << (int)'a' << endl;
-    cout << (int)'d' << endl;
-    //cout << movePiece[1] << "   " << moveCol << endl;
+
+    // find the piece in the pieces vector that needs to be moved
     bool exists = false;
     int pieceLoc;
     for (int p=0; p<pieces.size(); p++){
-      //cout << pieces[p].getType() << num2char(pieces[p].getCol()) << pieces[p].getRow() <<  endl;
-      //cout << moveType << num2char(moveCol) << moveRow << endl;
       if (pieces[p].getColor() == color && pieces[p].getType() == moveType && pieces[p].getCol() == moveCol && pieces[p].getRow() == moveRow){
 	exists = true;
 	pieceLoc = p;
@@ -64,7 +61,7 @@ void Board::move(int color){
 }
 
 void Board::dispBoard(){
-  // TODO: ensure printing distinct pieces instead of "p"
+  // TODO: ensure printing distinct pieces instead of "p" etc.
   system("clear");
   cout << "   -----------------" << endl;
   for (int i=8; i>=1; i--){
@@ -99,7 +96,7 @@ void Board::playGame(){
     dispBoard();
     move(1);
     dispBoard();
-    move(-1);
+    move(1);
     checkWin();
   }
 }

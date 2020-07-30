@@ -51,10 +51,18 @@ void Piece::computePermMovesRook(){
     pair<int,int> add_pair (getCol(),getRow()-(i+1));
     permMoves.push_back(add_pair);
   }
+  cout << "new rook at " << getCol() << ", " << getRow() << endl;
+  cout << top << ", " << left << ", " << right << ", " << bottom << endl;
+  for (int i=0; i<sizeof(permMoves)/sizeof(permMoves[0]); i++){
+    cout << permMoves[i].first << ", " << permMoves[i].second << endl;
+  }
 }
 
 // compute the permissable moves (that are of the nature of the piece)
 void Piece::computePermMoves(){
+  // Clear the old permissible moves
+  vector<pair<int,int>> emptyPermMoves {{0,0}};
+  permMoves.swap(emptyPermMoves);
   // PAWN
   if (getType() == 'p'){
     // add move to one row ahead
@@ -64,6 +72,10 @@ void Piece::computePermMoves(){
       // add move to two rows ahead
       pair<int,int> add_pair (getCol(),getRow()+2*getColor());
       permMoves.push_back(add_pair);
+    }
+    cout << "new pawn at " << getCol() << ", " << getRow() << endl;
+    for (int i=0; i<sizeof(permMoves)/sizeof(permMoves[0]); i++){
+      cout << permMoves[i].first << ", " << permMoves[i].second << endl;
     }
   }
   // KNIGHT
@@ -121,8 +133,7 @@ void Piece::movePiece(){
   
   bool validMoveMade = false;
   while(validMoveMade == false){
-    // TODO: streamline this to allow "nh3" as input
-    cout << "Give a move for " << (char)type << " " << num2char(col) << row << ": " << endl;
+    cout << "Give a move for " << (char)type << " " << num2char(col) << row << ": (e.g. e2)" << endl;
     cin >> newMove;
     newCol = char2num(newMove[0]);
     newRow =  newMove[1] - '0';
@@ -132,6 +143,7 @@ void Piece::movePiece(){
     // check if the newMove is an allowed move
     bool allowed = false;
     for (int i=0; i<sizeof(allowedMoves)/sizeof(allowedMoves[0]); i++){
+      cout << allowedMoves[i].first << ", " << allowedMoves[i].second << endl;
       if (newMove == allowedMoves[i]){
 	allowed = true;
 	break;
@@ -142,6 +154,7 @@ void Piece::movePiece(){
     if (allowed){
       changeRow(newRow);
       changeCol(newCol);
+      changeMoveCnt(getMoveCnt()+1);
       validMoveMade = true;
     }
     else{
