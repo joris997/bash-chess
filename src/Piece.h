@@ -22,6 +22,12 @@ class Piece{
   // allowable moves for the piece, taking the entire board into account (1. Ke2 is not allowed but permissable)
   vector<pair<int,int>> allowedMoves;
 
+  // Reserve maximum size of 21, this is the maximum possible moves for an empty board queen
+  Piece(){
+    permMoves.reserve(21);
+    allowedMoves.reserve(21);
+  }
+
  public:
   // getting
   int getRow(){return row;};

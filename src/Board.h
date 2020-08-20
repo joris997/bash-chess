@@ -13,7 +13,7 @@ class Board{
 
  public:
   // template class functions
-  void checkWin();
+  void checkWin(int color);
   void move(int color);
   void playGame();
   void dispBoard();

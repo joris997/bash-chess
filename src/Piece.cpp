@@ -2,7 +2,6 @@
 #include <iostream>
 #include <utility>
 #include "colTrans.h"
-
 using namespace std;
 
 // compute the permissible moves for a bishop piece (and queen)
@@ -53,7 +52,7 @@ void Piece::computePermMovesRook(){
   }
   cout << "new rook at " << getCol() << ", " << getRow() << endl;
   cout << top << ", " << left << ", " << right << ", " << bottom << endl;
-  for (int i=0; i<sizeof(permMoves)/sizeof(permMoves[0]); i++){
+  for (int i=0; i<permMoves.size(); i++){
     cout << permMoves[i].first << ", " << permMoves[i].second << endl;
   }
 }
@@ -74,7 +73,7 @@ void Piece::computePermMoves(){
       permMoves.push_back(add_pair);
     }
     cout << "new pawn at " << getCol() << ", " << getRow() << endl;
-    for (int i=0; i<sizeof(permMoves)/sizeof(permMoves[0]); i++){
+    for (int i=0; i<permMoves.size(); i++){
       cout << permMoves[i].first << ", " << permMoves[i].second << endl;
     }
   }
@@ -121,6 +120,12 @@ void Piece::computePermMoves(){
 
 // compute the allowed moves (regarding other pieces)
 void Piece::computeAllowedMoves(){
+  /*  to consider:
+- you cannot check yourself
+- all moves behind a white or black piece (for everything except knight and king) are not possible
+- all moves on a piece of the same color are not possible
+- all moves on a piece of the opposite color are possible iff not checking yourself
+  */
   allowedMoves = permMoves;
 }
 
@@ -142,7 +147,7 @@ void Piece::movePiece(){
 
     // check if the newMove is an allowed move
     bool allowed = false;
-    for (int i=0; i<sizeof(allowedMoves)/sizeof(allowedMoves[0]); i++){
+    for (int i=0; i<allowedMoves.size(); i++){
       cout << allowedMoves[i].first << ", " << allowedMoves[i].second << endl;
       if (newMove == allowedMoves[i]){
 	allowed = true;

@@ -5,7 +5,7 @@
 using namespace std;
 
 // check win-condition, checkmate, stalemate
-void Board::checkWin(){
+void Board::checkWin(int color){
   cout << "checking win" << endl;
 }
 
@@ -94,9 +94,12 @@ void Board::dispBoard(){
 void Board::playGame(){
   while(true){
     dispBoard();
+    // white to move
     move(1);
+    checkWin(1);
     dispBoard();
+    // black to move
     move(1);
-    checkWin();
+    checkWin(-1);
   }
 }
