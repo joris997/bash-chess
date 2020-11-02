@@ -33,3 +33,9 @@
 
 *~
 *.gch
+
+
+
+# ADDED BY USER
+/build
+*.user

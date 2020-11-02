@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/bash-chess.dir/src/main.cpp.o CMakeFiles/bash-chess.dir/src/Piece.cpp.o CMakeFiles/bash-chess.dir/src/Board.cpp.o CMakeFiles/bash-chess.dir/src/colTrans.cpp.o  -o bash-chess 
