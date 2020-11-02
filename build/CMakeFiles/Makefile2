@@ -60,39 +60,39 @@ CMAKE_SOURCE_DIR = /home/none/Documents/cpp/bash-chess
 CMAKE_BINARY_DIR = /home/none/Documents/cpp/bash-chess/build
 
 #=============================================================================
-# Target rules for target CMakeFiles/bash-chess.dir
+# Target rules for target CMakeFiles/bashChess.dir
 
 # All Build rule for target.
-CMakeFiles/bash-chess.dir/all:
-	$(MAKE) -f CMakeFiles/bash-chess.dir/build.make CMakeFiles/bash-chess.dir/depend
-	$(MAKE) -f CMakeFiles/bash-chess.dir/build.make CMakeFiles/bash-chess.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/none/Documents/cpp/bash-chess/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target bash-chess"
-.PHONY : CMakeFiles/bash-chess.dir/all
+CMakeFiles/bashChess.dir/all:
+	$(MAKE) -f CMakeFiles/bashChess.dir/build.make CMakeFiles/bashChess.dir/depend
+	$(MAKE) -f CMakeFiles/bashChess.dir/build.make CMakeFiles/bashChess.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/none/Documents/cpp/bash-chess/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target bashChess"
+.PHONY : CMakeFiles/bashChess.dir/all
 
 # Include target in all.
-all: CMakeFiles/bash-chess.dir/all
+all: CMakeFiles/bashChess.dir/all
 
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/bash-chess.dir/rule: cmake_check_build_system
+CMakeFiles/bashChess.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/none/Documents/cpp/bash-chess/build/CMakeFiles 5
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/bash-chess.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/bashChess.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/none/Documents/cpp/bash-chess/build/CMakeFiles 0
-.PHONY : CMakeFiles/bash-chess.dir/rule
+.PHONY : CMakeFiles/bashChess.dir/rule
 
 # Convenience name for target.
-bash-chess: CMakeFiles/bash-chess.dir/rule
+bashChess: CMakeFiles/bashChess.dir/rule
 
-.PHONY : bash-chess
-
-# clean rule for target.
-CMakeFiles/bash-chess.dir/clean:
-	$(MAKE) -f CMakeFiles/bash-chess.dir/build.make CMakeFiles/bash-chess.dir/clean
-.PHONY : CMakeFiles/bash-chess.dir/clean
+.PHONY : bashChess
 
 # clean rule for target.
-clean: CMakeFiles/bash-chess.dir/clean
+CMakeFiles/bashChess.dir/clean:
+	$(MAKE) -f CMakeFiles/bashChess.dir/build.make CMakeFiles/bashChess.dir/clean
+.PHONY : CMakeFiles/bashChess.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/bashChess.dir/clean
 
 .PHONY : clean
 

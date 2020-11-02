@@ -69,8 +69,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named bash-chess
+# Target rules for targets named bashChess
 
 # Build rule for target.
-bash-chess: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 bash-chess
-.PHONY : bash-chess
+bashChess: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 bashChess
+.PHONY : bashChess
 
 # fast build rule for target.
-bash-chess/fast:
-	$(MAKE) -f CMakeFiles/bash-chess.dir/build.make CMakeFiles/bash-chess.dir/build
-.PHONY : bash-chess/fast
+bashChess/fast:
+	$(MAKE) -f CMakeFiles/bashChess.dir/build.make CMakeFiles/bashChess.dir/build
+.PHONY : bashChess/fast
 
 src/Board.o: src/Board.cpp.o
 
@@ -129,7 +129,7 @@ src/Board.o: src/Board.cpp.o
 
 # target to build an object file
 src/Board.cpp.o:
-	$(MAKE) -f CMakeFiles/bash-chess.dir/build.make CMakeFiles/bash-chess.dir/src/Board.cpp.o
+	$(MAKE) -f CMakeFiles/bashChess.dir/build.make CMakeFiles/bashChess.dir/src/Board.cpp.o
 .PHONY : src/Board.cpp.o
 
 src/Board.i: src/Board.cpp.i
@@ -138,7 +138,7 @@ src/Board.i: src/Board.cpp.i
 
 # target to preprocess a source file
 src/Board.cpp.i:
-	$(MAKE) -f CMakeFiles/bash-chess.dir/build.make CMakeFiles/bash-chess.dir/src/Board.cpp.i
+	$(MAKE) -f CMakeFiles/bashChess.dir/build.make CMakeFiles/bashChess.dir/src/Board.cpp.i
 .PHONY : src/Board.cpp.i
 
 src/Board.s: src/Board.cpp.s
@@ -147,7 +147,7 @@ src/Board.s: src/Board.cpp.s
 
 # target to generate assembly for a file
 src/Board.cpp.s:
-	$(MAKE) -f CMakeFiles/bash-chess.dir/build.make CMakeFiles/bash-chess.dir/src/Board.cpp.s
+	$(MAKE) -f CMakeFiles/bashChess.dir/build.make CMakeFiles/bashChess.dir/src/Board.cpp.s
 .PHONY : src/Board.cpp.s
 
 src/Piece.o: src/Piece.cpp.o
@@ -156,7 +156,7 @@ src/Piece.o: src/Piece.cpp.o
 
 # target to build an object file
 src/Piece.cpp.o:
-	$(MAKE) -f CMakeFiles/bash-chess.dir/build.make CMakeFiles/bash-chess.dir/src/Piece.cpp.o
+	$(MAKE) -f CMakeFiles/bashChess.dir/build.make CMakeFiles/bashChess.dir/src/Piece.cpp.o
 .PHONY : src/Piece.cpp.o
 
 src/Piece.i: src/Piece.cpp.i
@@ -165,7 +165,7 @@ src/Piece.i: src/Piece.cpp.i
 
 # target to preprocess a source file
 src/Piece.cpp.i:
-	$(MAKE) -f CMakeFiles/bash-chess.dir/build.make CMakeFiles/bash-chess.dir/src/Piece.cpp.i
+	$(MAKE) -f CMakeFiles/bashChess.dir/build.make CMakeFiles/bashChess.dir/src/Piece.cpp.i
 .PHONY : src/Piece.cpp.i
 
 src/Piece.s: src/Piece.cpp.s
@@ -174,7 +174,7 @@ src/Piece.s: src/Piece.cpp.s
 
 # target to generate assembly for a file
 src/Piece.cpp.s:
-	$(MAKE) -f CMakeFiles/bash-chess.dir/build.make CMakeFiles/bash-chess.dir/src/Piece.cpp.s
+	$(MAKE) -f CMakeFiles/bashChess.dir/build.make CMakeFiles/bashChess.dir/src/Piece.cpp.s
 .PHONY : src/Piece.cpp.s
 
 src/colTrans.o: src/colTrans.cpp.o
@@ -183,7 +183,7 @@ src/colTrans.o: src/colTrans.cpp.o
 
 # target to build an object file
 src/colTrans.cpp.o:
-	$(MAKE) -f CMakeFiles/bash-chess.dir/build.make CMakeFiles/bash-chess.dir/src/colTrans.cpp.o
+	$(MAKE) -f CMakeFiles/bashChess.dir/build.make CMakeFiles/bashChess.dir/src/colTrans.cpp.o
 .PHONY : src/colTrans.cpp.o
 
 src/colTrans.i: src/colTrans.cpp.i
@@ -192,7 +192,7 @@ src/colTrans.i: src/colTrans.cpp.i
 
 # target to preprocess a source file
 src/colTrans.cpp.i:
-	$(MAKE) -f CMakeFiles/bash-chess.dir/build.make CMakeFiles/bash-chess.dir/src/colTrans.cpp.i
+	$(MAKE) -f CMakeFiles/bashChess.dir/build.make CMakeFiles/bashChess.dir/src/colTrans.cpp.i
 .PHONY : src/colTrans.cpp.i
 
 src/colTrans.s: src/colTrans.cpp.s
@@ -201,7 +201,7 @@ src/colTrans.s: src/colTrans.cpp.s
 
 # target to generate assembly for a file
 src/colTrans.cpp.s:
-	$(MAKE) -f CMakeFiles/bash-chess.dir/build.make CMakeFiles/bash-chess.dir/src/colTrans.cpp.s
+	$(MAKE) -f CMakeFiles/bashChess.dir/build.make CMakeFiles/bashChess.dir/src/colTrans.cpp.s
 .PHONY : src/colTrans.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -210,7 +210,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) -f CMakeFiles/bash-chess.dir/build.make CMakeFiles/bash-chess.dir/src/main.cpp.o
+	$(MAKE) -f CMakeFiles/bashChess.dir/build.make CMakeFiles/bashChess.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -219,7 +219,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) -f CMakeFiles/bash-chess.dir/build.make CMakeFiles/bash-chess.dir/src/main.cpp.i
+	$(MAKE) -f CMakeFiles/bashChess.dir/build.make CMakeFiles/bashChess.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -228,7 +228,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) -f CMakeFiles/bash-chess.dir/build.make CMakeFiles/bash-chess.dir/src/main.cpp.s
+	$(MAKE) -f CMakeFiles/bashChess.dir/build.make CMakeFiles/bashChess.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 # Help Target
@@ -238,7 +238,7 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... bash-chess"
+	@echo "... bashChess"
 	@echo "... edit_cache"
 	@echo "... src/Board.o"
 	@echo "... src/Board.i"
