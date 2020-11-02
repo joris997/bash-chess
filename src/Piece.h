@@ -29,8 +29,6 @@ class Piece{
         }
 
     public:
-        // TODO: do this more neatly instead of just making it public. perhaps a special function for pushing back
-        // allowable moves for the piece, taking the entire board into account (1. Ke2 is not allowed but permissible)
         vector<pair<int,int>> allowedMoves;
 
         // getting
@@ -59,8 +57,8 @@ class Piece{
     // constructor
     explicit Piece(const int row, const int col, const int color, const char type)
     : row(row), col(col), moveCnt(0), color(color), type(type)
-    {
-        cout << "Created a " << color << " " << (char)type << " at " << num2char(col) << row << endl;
-    }
+    {}
+//        cout << "Created a " << color << " " << (char)type << " at " << num2char(col) << row << endl;
+//    }
 };
 #endif

@@ -5,6 +5,14 @@
 using namespace std;
 
 // General check functions
+Piece Board::getKing(int color){
+    for (auto & piece : pieces){
+        if (piece.getType() == 'k' && piece.getCol() == color){
+            return piece;
+        }
+    }
+}
+
 Piece Board::getPiece(pair<int,int> square){
     for (auto & piece : pieces){
         if (piece.getCol() == square.first && piece.getRow() == square.second){
@@ -63,15 +71,17 @@ void Board::computeAllowedMovesPawn(Piece &piece){
         }
     }
     // Can you capture a piece front left from you?
-    if (getColor(pair<int,int> (piece.getCol()-1,piece.getRow()+piece.getColor())) != piece.getColor()){
-        piece.allowedMoves.emplace_back(pair<int,int>(piece.getCol()-1,piece.getRow()+piece.getColor()));
+    pair<int,int> potentialPair(piece.getCol()-1,piece.getRow()+piece.getColor());
+    if (getColor(potentialPair) != piece.getColor()){
+        piece.allowedMoves.emplace_back(potentialPair);
     }
     // Can you capture a piece front right from you?
-    if (getColor(pair<int,int> (piece.getCol()+1,piece.getRow()+piece.getColor())) != piece.getColor()){
-        piece.allowedMoves.emplace_back(pair<int,int>(piece.getCol()+1,piece.getRow()+piece.getColor()));
+    potentialPair.first = piece.getCol()+1; potentialPair.second = piece.getRow()+piece.getColor();
+    if (getColor(potentialPair) != piece.getColor()){
+        piece.allowedMoves.emplace_back(potentialPair);
     }
     // Can you capture a piece en passe left?
-    pair<int,int> potentialPair(piece.getCol()-1,piece.getRow());
+    potentialPair.first = piece.getCol()-1; potentialPair.second = piece.getRow();
     // check if there even is a piece
     if (getColor(potentialPair) != 0){
         // check if opposite color and if en passe is possible
@@ -92,7 +102,8 @@ void Board::computeAllowedMovesPawn(Piece &piece){
 void Board::computeAllowedMovesBishop(Piece &piece){
     for (int i=1; i<=8; i++){
         // Only permit moves that are within the board
-        if (piece.getCol()+i >= 1 && piece.getCol()+i <= 8 && piece.getRow()+i >= 1 && piece.getRow()+i <= 8){
+        if (piece.getCol()+i >= 1 && piece.getCol()+i <= 8 &&
+                piece.getRow()+i >= 1 && piece.getRow()+i <= 8){
             pair<int,int> potentialPair(piece.getCol()+i,piece.getRow()+i);
             // If the next square is not occupied at all
             if (!isOccupied(potentialPair)){
@@ -108,7 +119,8 @@ void Board::computeAllowedMovesBishop(Piece &piece){
         }
     }
     for (int i=1; i<=8; i++){
-        if (piece.getCol()-i >= 1 && piece.getCol()-i <= 8 && piece.getRow()+i >= 1 && piece.getRow()+i <= 8){
+        if (piece.getCol()-i >= 1 && piece.getCol()-i <= 8 &&
+                piece.getRow()+i >= 1 && piece.getRow()+i <= 8){
             pair<int,int> potentialPair(piece.getCol()-i,piece.getRow()+i);
             if (!isOccupied(potentialPair)){
                 piece.allowedMoves.emplace_back(potentialPair);
@@ -121,7 +133,8 @@ void Board::computeAllowedMovesBishop(Piece &piece){
         }
     }
     for (int i=1; i<=8; i++){
-        if (piece.getCol()-i >= 1 && piece.getCol()-i <= 8 && piece.getRow()-i >= 1 && piece.getRow()-i <= 8){
+        if (piece.getCol()-i >= 1 && piece.getCol()-i <= 8 &&
+                piece.getRow()-i >= 1 && piece.getRow()-i <= 8){
             pair<int,int> potentialPair(piece.getCol()-i,piece.getRow()-i);
             if (!isOccupied(potentialPair)){
                 piece.allowedMoves.emplace_back(potentialPair);
@@ -134,7 +147,8 @@ void Board::computeAllowedMovesBishop(Piece &piece){
         }
     }
     for (int i=1; i<=8; i++){
-        if (piece.getCol()+i >= 1 && piece.getCol()+i <= 8 && piece.getRow()-i >= 1 && piece.getRow()-i <= 8){
+        if (piece.getCol()+i >= 1 && piece.getCol()+i <= 8 &&
+                piece.getRow()-i >= 1 && piece.getRow()-i <= 8){
             pair<int,int> potentialPair(piece.getCol()+i,piece.getRow()-1);
             if (!isOccupied(potentialPair)){
                 piece.allowedMoves.emplace_back(potentialPair);
@@ -206,7 +220,7 @@ void Board::computeAllowedMoves() {
     for (auto & piece : pieces){
         piece.computePermMoves();
         piece.allowedMoves.clear();
-        // the knight and king 'jump' so here we only check if the color does not correspond
+        // the knight and king 'jump' so here only check if color does not correspond
         if (piece.getType() == 'k' || piece.getType() == 'n'){
             computeAllowedMovesKingKnight(piece);
         }
@@ -228,9 +242,17 @@ void Board::computeAllowedMoves() {
 
 
 // check win-condition, checkmate, stalemate
-bool Board::checkWin(int color){
+int Board::checkWin(int color){
     // if other king's allowed moves is empty and other king in check return true
-    cout << "checking win" << endl;
+    bool check;
+    bool staleMate;
+    if (check){
+        return 1;
+    } else if (staleMate){
+        return 2;
+    } else {
+        return 0;
+    }
 }
 
 // moving pieces, color = 1 for white, color = -1 for black
@@ -245,7 +267,8 @@ void Board::move(int color){
         cout << "Black to move!" << endl;
     }
 
-    // while loop until a valid move has been made (selecting the wrong move or wrong piece)
+    // while loop until a valid move has been made
+    // (selecting the wrong move or wrong piece)
     bool validMoveMade = false;
     while (!validMoveMade){
         // get the piece that needs to be moved
@@ -265,7 +288,8 @@ void Board::move(int color){
         bool exists = false;
         int pieceLoc;
         for (int p=0; p<pieces.size(); p++){
-            if (pieces[p].getColor() == color && pieces[p].getType() == moveType && pieces[p].getCol() == moveCol && pieces[p].getRow() == moveRow){
+            if (pieces[p].getColor() == color && pieces[p].getType() == moveType &&
+                    pieces[p].getCol() == moveCol && pieces[p].getRow() == moveRow){
                 exists = true;
                 pieceLoc = p;
                 break;

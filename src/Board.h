@@ -16,13 +16,14 @@ class Board{
         Board(const Board &b){pieces = b.pieces;}
 
         // template class functions
-        bool checkWin(int color);
+        int checkWin(int color);
         void move(int color);
 
         void playGame();
         void dispBoard();
         void computeAllowedMoves();
 
+        Piece getKing(int color);
         Piece getPiece(pair<int,int> square);
         int getColor(pair<int,int> square);
         char getType(pair<int,int> square);

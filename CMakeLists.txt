@@ -8,3 +8,5 @@ add_executable(bashChess
     src/Piece.cpp
     src/Board.cpp
     src/colTrans.cpp)
+
+TARGET_LINK_LIBRARIES(bashChess stdc++)
