@@ -3,8 +3,6 @@
 #include <utility>
 #include "colTrans.h"
 
-using namespace std;
-
 // compute the permissible moves for a pawn
 void Piece::computePermMovesPawn(){
     // add move to one row ahead
@@ -14,9 +12,9 @@ void Piece::computePermMovesPawn(){
         permMoves.emplace_back(getCol(),getRow()+2*getColor());
     }
     /*
-    cout << "pawn at " << getCol() << ", " << getRow() << endl;
+    std::cout << "pawn at " << getCol() << ", " << getRow() << std::endl;
     for (int i=0; i<permMoves.size(); i++){
-    cout << permMoves[i].first << ", " << permMoves[i].second << endl;
+    std::cout << permMoves[i].first << ", " << permMoves[i].second << std::endl;
     }
     */
 }
@@ -71,10 +69,10 @@ void Piece::computePermMovesRook(){
         permMoves.emplace_back(getCol(),getRow()-(i+1));
     }
     /*
-    cout << "rook at " << getCol() << ", " << getRow() << endl;
-    cout << top << ", " << left << ", " << right << ", " << bottom << endl;
+    std::cout << "rook at " << getCol() << ", " << getRow() << std::endl;
+    std::cout << top << ", " << left << ", " << right << ", " << bottom << std::endl;
     for (int i=0; i<permMoves.size(); i++){
-    cout << permMoves[i].first << ", " << permMoves[i].second << endl;
+    std::cout << permMoves[i].first << ", " << permMoves[i].second << std::endl;
     }
     */
 }
@@ -131,7 +129,8 @@ void Piece::movePiece(){
 
     bool validMoveMade = false;
     while(!validMoveMade){
-        cout << "Give a move for " << (char)type << " " << num2char(col) << row << ": (e.g. e2)" << endl;
+//        std::cout << "Give a move for " << (char)type << " " << num2char(col) << row << ": (e.g. e2)" << std::endl;
+        std::cout << "Give a move: (e.g. e2)" << std::endl;
         cin >> newMove;
         newCol = char2num(newMove[0]);
         newRow =  newMove[1] - '0';
@@ -141,7 +140,7 @@ void Piece::movePiece(){
         // check if the newMove is an allowed move
         bool allowed = false;
         for (auto & allowedMove : allowedMoves){
-            cout << allowedMove.first << ", " << allowedMove.second << endl;
+            std::cout << allowedMove.first << ", " << allowedMove.second << std::endl;
             if (newMove == allowedMove){
                 allowed = true;
                 break;
@@ -163,7 +162,7 @@ void Piece::movePiece(){
             }
         }
         else{
-            cout << "Not an allowed move" << endl;
+            std::cout << "Not an allowed move" << std::endl;
         }
     }
 }

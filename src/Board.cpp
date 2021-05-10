@@ -2,8 +2,6 @@
 #include "colTrans.h"
 #include <iostream>
 
-using namespace std;
-
 // General check functions
 Piece Board::getKing(int color){
     for (auto & piece : pieces){
@@ -53,31 +51,68 @@ bool Board::checkSelfCheck(Piece &piece, pair<int,int> move){
     return true;
 }
 
+bool Board::isOnBoard(pair<int,int> potentialPair){
+    if (potentialPair.first > 0 && potentialPair.first < 9 &&
+            potentialPair.second > 0 && potentialPair.second < 9){
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 
 
 // Allowed moves functions
-void Board::computeAllowedMovesKingKnight(Piece &piece){
-    for (auto & permMove : piece.getPermMoves()){
-        if (getColor(pair <int,int> (permMove.first,permMove.second)) != piece.getColor()){
-            piece.allowedMoves.push_back(permMove);
+void Board::computeAllowedMovesKing(Piece &piece){
+    pair<int,int> potentialPair(0,0);
+
+    for (int i=-1; i<2; i+=2){
+        for (int ii=-1; ii<2; ii+=2){
+            potentialPair.first = piece.getCol()+i;
+            potentialPair.second = piece.getRow()+i;
+            if (getColor(potentialPair) == 0 ||
+                    getColor(potentialPair) == -1*piece.getColor() &&
+                    isOnBoard(potentialPair)){
+                piece.allowedMoves.push_back(potentialPair);
+            }
         }
     }
 }
 
-void Board::computeAllowedMovesPawn(Piece &piece){
-    for (auto & permMove : piece.getPermMoves()){
-        if (getColor(pair <int,int> (permMove.first,permMove.second)) != piece.getColor()){
-            piece.allowedMoves.push_back(permMove);
+void Board::computeAllowedMovesKnight(Piece &piece){
+    int knightMovesColumns[8] = {-2,-2,-1,-1,1,1,2,2};
+    int knightMovesRows[8] = {1,-1,2,-2,2,-2,1,-1};
+    pair<int,int> potentialPair(0,0);
+
+    for (auto & col : knightMovesColumns){
+        for (auto & row : knightMovesRows){
+            potentialPair.first = piece.getCol() + col;
+            potentialPair.second = piece.getRow() + row;
+            if (getColor(potentialPair) != piece.getColor() && isOnBoard(potentialPair)){
+                piece.allowedMoves.push_back(potentialPair);
+            }
         }
     }
+
+}
+
+void Board::computeAllowedMovesPawn(Piece &piece){
+    pair<int,int> potentialPair(piece.getCol(), piece.getRow()+1);
+    if (!isOccupied(potentialPair) && isOnBoard(potentialPair)){
+        piece.allowedMoves.push_back(potentialPair);
+    }
+    potentialPair.first = piece.getCol(); potentialPair.second = piece.getRow()+2;
+    if (!isOccupied(potentialPair) && piece.getMoveCnt()==0 && isOnBoard(potentialPair)){
+        piece.allowedMoves.push_back(potentialPair);
+    }
     // Can you capture a piece front left from you?
-    pair<int,int> potentialPair(piece.getCol()-1,piece.getRow()+piece.getColor());
-    if (getColor(potentialPair) != piece.getColor()){
+    potentialPair.first = piece.getCol()-1; potentialPair.second = piece.getRow()+piece.getColor();
+    if (getColor(potentialPair) != piece.getColor() && isOnBoard(potentialPair)){
         piece.allowedMoves.emplace_back(potentialPair);
     }
     // Can you capture a piece front right from you?
     potentialPair.first = piece.getCol()+1; potentialPair.second = piece.getRow()+piece.getColor();
-    if (getColor(potentialPair) != piece.getColor()){
+    if (getColor(potentialPair) != piece.getColor() && isOnBoard(potentialPair)){
         piece.allowedMoves.emplace_back(potentialPair);
     }
     // Can you capture a piece en passe left?
@@ -85,14 +120,18 @@ void Board::computeAllowedMovesPawn(Piece &piece){
     // check if there even is a piece
     if (getColor(potentialPair) != 0){
         // check if opposite color and if en passe is possible
-        if (getColor(potentialPair) != piece.getColor() && getPiece(potentialPair).getEnPasse()){
+        if (getColor(potentialPair) != piece.getColor() &&
+                getPiece(potentialPair).getEnPasse() &&
+                isOnBoard(potentialPair)){
             piece.allowedMoves.emplace_back(potentialPair);
         }
     }
     // Can you capture a piece en pass right?
     potentialPair.first = piece.getCol()+1; potentialPair.second = piece.getRow();
     if (getColor(potentialPair) != 0){
-        if (getColor(potentialPair) != piece.getColor() && getPiece(potentialPair).getEnPasse()){
+        if (getColor(potentialPair) != piece.getColor() &&
+                getPiece(potentialPair).getEnPasse() &&
+                isOnBoard(potentialPair)){
             piece.allowedMoves.emplace_back(potentialPair);
         }
     }
@@ -221,8 +260,12 @@ void Board::computeAllowedMoves() {
         piece.computePermMoves();
         piece.allowedMoves.clear();
         // the knight and king 'jump' so here only check if color does not correspond
-        if (piece.getType() == 'k' || piece.getType() == 'n'){
-            computeAllowedMovesKingKnight(piece);
+        if (piece.getType() == 'k'){
+            computeAllowedMovesKing(piece);
+        }
+
+        if (piece.getType() == 'n'){
+            computeAllowedMovesKnight(piece);
         }
 
         if (piece.getType() == 'p'){
@@ -239,20 +282,63 @@ void Board::computeAllowedMoves() {
     }
 }
 
+bool Board::checkCheckmate(int color){
+    int pieceLoopCount = 0;
+    int totalUncheckMoves = 0;
 
+    // check if the playing color is even under check
+    if (checkCheck(color)){
+        for (auto & piece : pieces){
+            // for all the pieces of the playing person's color
+            if (piece.getColor() == color){
+                // outright remove all the moves (they might not solve check)
+                if (pieceLoopCount == 0){
+                    piece.allowedMoves.clear();
+                }
+                // loop through all the allowed moves of each piece
+                for (auto & move : piece.allowedMoves){
+                    Board plusOneMove = *this;
+                    plusOneMove.pieces[0].changeCol(move.first);
+                    plusOneMove.pieces[0].changeRow(move.second);
+                    // if it prevents check
+                    if (!plusOneMove.checkCheck(color)){
+                        // add it to the cleared allowed moves again
+                        piece.allowedMoves.emplace_back(
+                                    pair<int,int> (move.first,move.second));
+                        pieceLoopCount += 1;
+                        totalUncheckMoves += 1;
+                    }
+                }
+            }
+        }
+    }
+    if (totalUncheckMoves > 0){
+        return false;
+    } else {
+        return true;
+    }
+}
+bool Board::checkCheck(int color){
+    bool check = false;
+
+    for (auto & piece : pieces){
+        if (piece.getColor() == -1*color){
+            for (auto & move : piece.allowedMoves){
+                if (move.first == getKing(color).getCol()
+                        && move.second == getKing(color).getRow()){
+                    check = true;
+                    std::cout << "CHECK!!!" << std::endl;
+                }
+            }
+        }
+    }
+    return check;
+}
 
 // check win-condition, checkmate, stalemate
-int Board::checkWin(int color){
+bool Board::checkWin(int color){
     // if other king's allowed moves is empty and other king in check return true
-    bool check;
-    bool staleMate;
-    if (check){
-        return 1;
-    } else if (staleMate){
-        return 2;
-    } else {
-        return 0;
-    }
+    return checkCheckmate(-1*color);
 }
 
 // moving pieces, color = 1 for white, color = -1 for black
@@ -261,10 +347,10 @@ void Board::move(int color){
 
     // announce which color is to move
     if (color == 1){
-        cout << "White to move!" << endl;
+        cout << "White to move!" << std::endl;
     }
     else {
-        cout << "Black to move!" << endl;
+        cout << "Black to move!" << std::endl;
     }
 
     // while loop until a valid move has been made
@@ -273,23 +359,21 @@ void Board::move(int color){
     while (!validMoveMade){
         // get the piece that needs to be moved
         char movePiece[3];
-        char moveType;
         int moveCol;
         int moveRow;
 
-        cout << "Piece you want to move: (e.g. ke1)" << endl;
+        cout << "Piece you want to move: (e.g. e2)" << std::endl;
         cin >> movePiece;
 
-        moveType = movePiece[0];
-        moveCol = char2num(movePiece[1]);
-        moveRow =  movePiece[2] - '0';
+        moveCol = char2num(movePiece[0]);
+        moveRow =  movePiece[1] - '0';
 
         // find the piece in the pieces vector that needs to be moved
         bool exists = false;
         int pieceLoc;
         for (int p=0; p<pieces.size(); p++){
-            if (pieces[p].getColor() == color && pieces[p].getType() == moveType &&
-                    pieces[p].getCol() == moveCol && pieces[p].getRow() == moveRow){
+            if (pieces[p].getColor() == color && pieces[p].getCol() == moveCol
+                    && pieces[p].getRow() == moveRow){
                 exists = true;
                 pieceLoc = p;
                 break;
@@ -300,7 +384,7 @@ void Board::move(int color){
             validMoveMade = true;
         }
         else{
-            cout << "Not a valid piece" << endl;
+            cout << "Not a valid piece" << std::endl;
         }
     }
 }
@@ -308,7 +392,7 @@ void Board::move(int color){
 void Board::dispBoard(){
     // TODO: ensure printing distinct pieces instead of "p" etc.
     system("clear");
-    cout << "   -----------------" << endl;
+    cout << "   -----------------" << std::endl;
     for (int i=8; i>=1; i--){
         cout << i << " | ";
         for (int ii=1; ii<=8; ii++){
@@ -330,22 +414,27 @@ void Board::dispBoard(){
                 cout << ". ";
             }
         }
-        cout << "|" << endl;
+        cout << "|" << std::endl;
     }
-    cout << "   -----------------" << endl;
-    cout << "    a b c d e f g h " << endl;
+    cout << "   -----------------" << std::endl;
+    cout << "    a b c d e f g h " << std::endl;
 }
 
 void Board::playGame(){
-    bool win = false;
-    while(!win){
+    while(true){
         dispBoard();
         // white to move
         move(1);
-        win = checkWin(1);
+        if (checkWin(1)){
+            std::cout << "White won!" << std::endl;
+            break;
+        }
         dispBoard();
         // black to move
         move(-1);
-        win = checkWin(-1);
+        if (checkWin(-1)){
+            std::cout << "Black won!" << std::endl;
+            break;
+        }
     }
 }

@@ -16,7 +16,10 @@ class Board{
         Board(const Board &b){pieces = b.pieces;}
 
         // template class functions
-        int checkWin(int color);
+        bool checkWin(int color);
+        bool checkCheckmate(int color);
+        bool checkCheck(int color);
+
         void move(int color);
 
         void playGame();
@@ -28,9 +31,11 @@ class Board{
         int getColor(pair<int,int> square);
         char getType(pair<int,int> square);
         bool isOccupied(pair<int,int> square);
+        bool isOnBoard(pair<int,int> square);
         bool checkSelfCheck(Piece &pice, pair<int,int> square);
 
-        void computeAllowedMovesKingKnight(Piece &piece);
+        void computeAllowedMovesKing(Piece &piece);
+        void computeAllowedMovesKnight(Piece &piece);
         void computeAllowedMovesPawn(Piece &piece);
         void computeAllowedMovesBishop(Piece &piece);
         void computeAllowedMovesRook(Piece &piece);
